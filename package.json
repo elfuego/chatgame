@@ -6,7 +6,9 @@
   "scripts": {
     "build": "webpack",
     "dist": "NODE_ENV=production webpack",
-    "start": "webpack serve --open-app-name 'Google Chrome'"
+    "start": "webpack serve --open-app-name 'Google Chrome'",
+    "server": "node server/index.js",
+    "dev": "node --watch server/index.js"
   },
   "author": "André van Toly",
   "license": "ISC",
@@ -24,5 +26,8 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-middleware": "^8.6.1",
     "webpack-dev-server": "^6.1.0"
+  },
+  "dependencies": {
+    "ws": "^8.23.0"
   }
 }

@@ -2,9 +2,37 @@
 <html lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Untitled</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat Game</title>
 </head>
 <body>
+  <section id="join" class="join">
+    <form id="join-form" class="box join__form">
+      <div class="box__header">
+        <h1 class="box__title">Chat Game</h1>
+      </div>
+      <div class="box__body">
+        <label class="label" for="join-name">Your name</label>
+        <input id="join-name" class="input" type="text" maxlength="20" autocomplete="off" required autofocus>
+        <p id="join-error" class="join__error" role="alert"></p>
+        <button type="submit" class="btn btn--primary btn--block">Enter chat</button>
+      </div>
+    </form>
+  </section>
 
+  <section id="chat" class="chat" hidden>
+    <header class="header chat__header">
+      <span class="header__title">Chat Game</span>
+    </header>
+    <ul id="messages" class="chat__messages" aria-live="polite"></ul>
+    <aside class="chat__users">
+      <h2 class="chat__users-title">Online <span id="user-count" class="counter">0</span></h2>
+      <ul id="users"></ul>
+    </aside>
+    <form id="message-form" class="chat__form">
+      <input id="message-text" class="input" type="text" maxlength="500" autocomplete="off" placeholder="Say something…" aria-label="Message" required>
+      <button type="submit" class="btn btn--primary">Send</button>
+    </form>
+  </section>
 </body>
 </html>
