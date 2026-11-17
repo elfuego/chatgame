@@ -1,3 +1,5 @@
+import { initLayout } from "./layout.js";
+
 const SERVER_URL = `ws://${location.hostname}:3001`;
 
 const joinSection = document.getElementById("join");
@@ -5,7 +7,7 @@ const joinForm = document.getElementById("join-form");
 const joinName = document.getElementById("join-name");
 const joinError = document.getElementById("join-error");
 
-const chatSection = document.getElementById("chat");
+const appSection = document.getElementById("app");
 const messageList = document.getElementById("messages");
 const userList = document.getElementById("users");
 const userCount = document.getElementById("user-count");
@@ -33,12 +35,12 @@ function send(payload) {
 
 function showChat() {
   joinSection.hidden = true;
-  chatSection.hidden = false;
+  appSection.hidden = false;
   messageText.focus();
 }
 
 function showJoin(errorText = "") {
-  chatSection.hidden = true;
+  appSection.hidden = true;
   joinSection.hidden = false;
   joinError.textContent = errorText;
   joinName.focus();
@@ -144,3 +146,5 @@ messageForm.addEventListener("submit", (event) => {
   send({ type: "message", text });
   messageText.value = "";
 });
+
+initLayout();

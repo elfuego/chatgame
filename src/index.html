@@ -20,19 +20,35 @@
     </form>
   </section>
 
-  <section id="chat" class="chat" hidden>
-    <header class="header chat__header">
-      <span class="header__title">Chat Game</span>
-    </header>
-    <ul id="messages" class="chat__messages" aria-live="polite"></ul>
-    <aside class="chat__users">
-      <h2 class="chat__users-title">Online <span id="user-count" class="counter">0</span></h2>
-      <ul id="users"></ul>
-    </aside>
-    <form id="message-form" class="chat__form">
-      <input id="message-text" class="input" type="text" maxlength="500" autocomplete="off" placeholder="Say something…" aria-label="Message" required>
-      <button type="submit" class="btn btn--primary">Send</button>
-    </form>
-  </section>
+  <main id="app" class="app" data-chat-position="right" hidden>
+    <section id="game" class="game" aria-label="Game">
+      <p class="game__placeholder">Game area</p>
+    </section>
+
+    <div id="splitter" class="splitter" role="separator" tabindex="0" aria-label="Resize chat" aria-controls="chat" aria-valuemin="20" aria-valuemax="80" aria-valuenow="50"></div>
+
+    <section id="chat" class="chat" aria-label="Chat">
+      <div class="chat__layout">
+        <header class="header chat__header">
+          <span class="header__title">Chat Game</span>
+          <div id="position-control" class="segmented" role="group" aria-label="Chat position">
+            <button type="button" class="segmented__button" data-position="left">Left</button>
+            <button type="button" class="segmented__button" data-position="right">Right</button>
+            <button type="button" class="segmented__button" data-position="top">Top</button>
+            <button type="button" class="segmented__button" data-position="bottom">Bottom</button>
+          </div>
+        </header>
+        <ul id="messages" class="chat__messages" aria-live="polite"></ul>
+        <aside class="chat__users">
+          <h2 class="chat__users-title">Online <span id="user-count" class="counter">0</span></h2>
+          <ul id="users"></ul>
+        </aside>
+        <form id="message-form" class="chat__form">
+          <input id="message-text" class="input" type="text" maxlength="500" autocomplete="off" placeholder="Say something…" aria-label="Message" required>
+          <button type="submit" class="btn btn--primary">Send</button>
+        </form>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
