@@ -1,0 +1,133 @@
+.box {
+  background: var(--bg-default);
+  border: 0.1rem solid var(--border-default);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-small);
+
+  &__header {
+    padding: 1.6rem;
+    background: var(--bg-subtle);
+    border-bottom: 0.1rem solid var(--border-default);
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+
+  &__title {
+    font-size: var(--font-size);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  &__body {
+    padding: 1.6rem;
+  }
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.input {
+  width: 100%;
+  height: var(--control-height);
+  padding: 0 1.2rem;
+  font: inherit;
+  color: var(--fg-default);
+  background: var(--bg-default);
+  border: 0.1rem solid var(--border-default);
+  border-radius: var(--radius);
+  box-shadow: inset 0 0.1rem 0 rgba(208, 215, 222, 0.2);
+
+  &::placeholder {
+    color: var(--fg-muted);
+  }
+
+  &:focus {
+    outline: 0.2rem solid var(--focus-outline);
+    outline-offset: -0.1rem;
+    border-color: var(--focus-outline);
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--control-height);
+  padding: 0 1.6rem;
+  font: inherit;
+  font-weight: 500;
+  white-space: nowrap;
+  border: 0.1rem solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+
+  &--primary {
+    color: var(--fg-on-emphasis);
+    background: var(--btn-primary-bg);
+    border-color: var(--btn-primary-border);
+    box-shadow: 0 0.1rem 0 rgba(31, 35, 40, 0.1);
+
+    &:hover {
+      background: var(--btn-primary-bg-hover);
+    }
+  }
+
+  &--block {
+    width: 100%;
+  }
+}
+
+.counter {
+  display: inline-block;
+  min-width: 2.4rem;
+  padding: 0 0.6rem;
+  font-size: var(--font-size-small);
+  font-weight: 500;
+  line-height: 2.2rem;
+  text-align: center;
+  color: var(--fg-default);
+  background: var(--bg-neutral-muted);
+  border-radius: 2em;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 1.6rem;
+  color: var(--header-fg);
+  background: var(--header-bg);
+
+  &__title {
+    font-size: 2rem;
+    font-weight: var(--font-weight-semibold);
+  }
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 0.2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
+
+  &__button {
+    padding: 0.4rem 1rem;
+    font: inherit;
+    font-size: var(--font-size-small);
+    color: var(--header-fg);
+    background: transparent;
+    border: 0;
+    border-radius: calc(var(--radius) - 0.2rem);
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    &[aria-pressed="true"] {
+      color: var(--fg-default);
+      background: var(--bg-default);
+      font-weight: var(--font-weight-semibold);
+    }
+  }
+}
