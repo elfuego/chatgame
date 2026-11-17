@@ -35,7 +35,17 @@ module.exports = {
   module: {
     rules: [
       {
+        // Component styles: imported as a string (`?inline`) and injected into the shadow DOM
         test: /\.scss$/i,
+        resourceQuery: /inline/,
+        use: [
+          { loader: "css-loader", options: { exportType: "string" } },
+          { loader: "sass-loader", options: { api: "modern" } },
+        ],
+      },
+      {
+        test: /\.scss$/i,
+        resourceQuery: { not: [/inline/] },
         use: [
           devMode ? "style-loader" : MiniCssExtractPlugin.loader,
           "css-loader",

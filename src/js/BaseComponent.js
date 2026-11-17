@@ -11,7 +11,7 @@ export default class extends HTMLElement {
 		this.setTemplate(template, style);
 	}
 
-	setTemplate(template, style) {
+	setTemplate(template, style = '') {
 		if (this.shadowRoot) {
 			this.shadowRoot.innerHTML = '';
 		}
@@ -20,7 +20,16 @@ export default class extends HTMLElement {
 
 		// dart-sass sometimes prepends a BOM to the output.
 		// That breaks the first CSS rule inside the shadow DOM, so strip it.
-		this.styleContent = style.replace(/^\uFEFF/, '');
+		this.styleContent = String(style).replace(/^\uFEFF/, '');
+	}
+
+	connectedCallback() {
+		this.render();
+	}
+
+	// Shorthand for querying inside the shadow root.
+	$(selector) {
+		return this.shadowRoot.querySelector(selector);
 	}
 
 	beforeRender() {
@@ -29,15 +38,16 @@ export default class extends HTMLElement {
 	}
 
 	render() {
-		if (!this.shadowDOM) {
-			this.shadowDOM = this.attachShadow({ mode: 'open' });
+		if (!this.shadowRoot) {
+			this.attachShadow({ mode: 'open' });
 		}
 
 		this.beforeRender();
 
 		const template = document.createElement('template');
 		template.innerHTML = `<style>${this.styleContent}</style> ${this.templateContent}`;
-		this.shadowRoot.appendChild(template.content.cloneNode(true));
+		// Replace instead of append, so calling render() again doesn't duplicate the UI.
+		this.shadowRoot.replaceChildren(template.content.cloneNode(true));
 		this.hidden = false;
 	}
 
@@ -99,33 +109,14 @@ export default class extends HTMLElement {
 	 * @param {*} slotName to reset just one specific slot
 	 */
 	resetSlotStyle(slotName) {
-		const resetCss = (slot) => {
+		const selector = slotName ? `slot[name="${slotName}"]` : 'slot';
+
+		this.shadowRoot.querySelectorAll(selector).forEach((slot) => {
 			slot.assignedNodes({ flatten: true }).forEach((node) => {
-				node.className = 'reset-css';
+				if (node.nodeType === Node.ELEMENT_NODE) {
+					node.className = 'reset-css';
+				}
 			});
-		};
-
-		const resetAllSlots = () => {
-			const slots = this.shadowRoot.querySelectorAll('slot');
-			slots.forEach((slot) => {
-				slot.assignedNodes({ flatten: true }).forEach(() => {
-					resetCss(slot);
-				});
-			});
-		};
-
-		const resetSingleSlot = (name) => {
-			const slot = this.shadowRoot.querySelector(
-				`slot[name=${name}]`
-			);
-			resetCss(slot);
-		};
-
-		if (slotName) {
-			resetSingleSlot(slotName);
-			return;
-		}
-
-		resetAllSlots();
+		});
 	}
 }
