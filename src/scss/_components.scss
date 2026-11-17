@@ -19,6 +19,16 @@
   &__body {
     padding: 1.6rem;
   }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.8rem;
+    padding: 1.2rem 1.6rem;
+    background: var(--bg-subtle);
+    border-top: 0.1rem solid var(--border-default);
+    border-radius: 0 0 var(--radius) var(--radius);
+  }
 }
 
 .label {
@@ -73,8 +83,34 @@
     }
   }
 
+  &--secondary {
+    color: var(--fg-default);
+    background: var(--bg-subtle);
+    border-color: var(--border-default);
+
+    &:hover {
+      background: var(--bg-neutral-muted);
+    }
+  }
+
   &--block {
     width: 100%;
+  }
+}
+
+.icon-button {
+  padding: 0.4rem 0.8rem;
+  font: inherit;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--header-fg);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -101,6 +137,12 @@
   &__title {
     font-size: 2rem;
     font-weight: var(--font-weight-semibold);
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
   }
 }
 

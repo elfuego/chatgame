@@ -33,9 +33,17 @@ export default class ChatGame extends BaseComponent {
     this.userCount = this.$("#user-count");
     this.messageForm = this.$("#message-form");
     this.messageText = this.$("#message-text");
+    this.settingsDialog = this.$("#settings");
+    this.settingsForm = this.$("#settings-form");
+    this.settingsName = this.$("#settings-name");
+    this.settingsError = this.$("#settings-error");
 
     this.joinForm.addEventListener("submit", (event) => this.handleJoinSubmit(event));
     this.messageForm.addEventListener("submit", (event) => this.handleMessageSubmit(event));
+    this.$("#settings-open").addEventListener("click", () => this.openSettings());
+    this.$("#settings-cancel").addEventListener("click", () => this.settingsDialog.close());
+    this.settingsForm.addEventListener("submit", (event) => this.handleSettingsSubmit(event));
+    this.settingsDialog.addEventListener("close", () => this.messageText.focus());
 
     initLayout(this.shadowRoot);
     this.joinName.focus();
@@ -84,7 +92,15 @@ export default class ChatGame extends BaseComponent {
     this.messageText.focus();
   }
 
+  openSettings() {
+    this.settingsName.value = this.myName;
+    this.settingsError.textContent = "";
+    this.settingsDialog.showModal();
+    this.settingsName.select();
+  }
+
   showJoin(errorText = "") {
+    this.settingsDialog.close();
     this.appSection.hidden = true;
     this.joinSection.hidden = false;
     this.joinError.textContent = errorText;
@@ -138,6 +154,11 @@ export default class ChatGame extends BaseComponent {
     this.appendItem(item);
   }
 
+  addPresenceNotice(names) {
+    const others = names.filter((name) => name !== this.myName);
+    this.addNotice(others.length ? `Already in the chat: ${others.join(", ")}.` : "You are the only one here.");
+  }
+
   handleServerMessage(data) {
     switch (data.type) {
       case "joined":
@@ -145,6 +166,7 @@ export default class ChatGame extends BaseComponent {
         this.messageList.replaceChildren();
         this.renderUsers(data.users);
         this.showChat();
+        this.addPresenceNotice(data.users);
         break;
       case "join-rejected":
         this.showJoin(data.reason);
@@ -157,6 +179,12 @@ export default class ChatGame extends BaseComponent {
         this.renderUsers(data.users);
         this.addNotice(`${data.name} left the chat.`);
         break;
+      case "user-renamed":
+        this.handleUserRenamed(data);
+        break;
+      case "profile-rejected":
+        this.settingsError.textContent = data.reason;
+        break;
       case "message":
         this.addMessage(data);
         break;
@@ -164,6 +192,16 @@ export default class ChatGame extends BaseComponent {
         this.addNotice(`Error: ${data.reason}`);
         break;
     }
+  }
+
+  handleUserRenamed({ oldName, name, users }) {
+    const isMe = oldName === this.myName;
+    if (isMe) {
+      this.myName = name;
+      this.settingsDialog.close();
+    }
+    this.renderUsers(users);
+    this.addNotice(isMe ? `You are now known as ${name}.` : `${oldName} is now known as ${name}.`);
   }
 
   handleDisconnect() {
@@ -182,6 +220,22 @@ export default class ChatGame extends BaseComponent {
     } catch (error) {
       this.showJoin(error.message);
     }
+  }
+
+  // Collects every setting in the dialog, add new fields (color, avatar, ...) here
+  collectProfile() {
+    return { name: this.settingsName.value };
+  }
+
+  handleSettingsSubmit(event) {
+    event.preventDefault();
+    this.settingsError.textContent = "";
+    const profile = this.collectProfile();
+    if (profile.name.trim() === this.myName) {
+      this.settingsDialog.close();
+      return;
+    }
+    this.send({ type: "update-profile", ...profile });
   }
 
   handleMessageSubmit(event) {

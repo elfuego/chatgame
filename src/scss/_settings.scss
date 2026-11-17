@@ -1,0 +1,27 @@
+.dialog {
+  width: min(40rem, 100% - 3.2rem);
+  padding: 0;
+  color: var(--fg-default);
+  background: transparent;
+  border: 0;
+
+  &::backdrop {
+    background: rgba(1, 4, 9, 0.6);
+  }
+}
+
+.settings {
+  &__fields {
+    display: grid;
+    gap: 1.6rem;
+  }
+
+  &__error {
+    font-size: var(--font-size-small);
+    color: var(--fg-danger);
+
+    &:empty {
+      display: none;
+    }
+  }
+}
