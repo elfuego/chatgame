@@ -1,0 +1,25 @@
+.join {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 1.6rem;
+
+  &__form {
+    width: min(38.4rem, 100%);
+  }
+
+  .input {
+    margin-bottom: 1.6rem;
+  }
+
+  &__error {
+    margin: -0.8rem 0 1.6rem;
+    font-size: var(--font-size-small);
+    color: var(--fg-danger);
+
+    &:empty {
+      display: none;
+    }
+  }
+}

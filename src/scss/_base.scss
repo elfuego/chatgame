@@ -1,0 +1,24 @@
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+p,
+ul {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+:focus-visible {
+  outline: 0.2rem solid var(--focus-outline);
+  outline-offset: -0.2rem;
+}

@@ -1,0 +1,60 @@
+// Fixed aspect ratio that follows the window width, but shrinks to fit when the window is too low
+.app {
+  --chat-size: 50%;
+  --app-margin: 1.6rem;
+  --app-ratio: calc(16 / 9);
+
+  position: absolute;
+  inset: 0;
+  display: flex;
+  width: min(100vw - 2 * var(--app-margin), (100dvh - 2 * var(--app-margin)) * var(--app-ratio));
+  height: min(100dvh - 2 * var(--app-margin), (100vw - 2 * var(--app-margin)) / var(--app-ratio));
+  margin: auto;
+  overflow: hidden;
+  background: var(--bg-default);
+  border: 0.1rem solid var(--border-default);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-small);
+
+  &[data-chat-position="left"],
+  &[data-chat-position="top"] {
+    .chat {
+      order: 0;
+    }
+
+    .game {
+      order: 2;
+    }
+  }
+
+  &[data-chat-position="top"],
+  &[data-chat-position="bottom"] {
+    flex-direction: column;
+
+    .splitter {
+      width: auto;
+      height: 0.6rem;
+      cursor: row-resize;
+    }
+  }
+
+  &.is-resizing {
+    user-select: none;
+  }
+}
+
+.splitter {
+  order: 1;
+  flex: 0 0 auto;
+  width: 0.6rem;
+  background: var(--border-default);
+  cursor: col-resize;
+  touch-action: none;
+
+  &:hover,
+  &:focus-visible,
+  .app.is-resizing & {
+    background: var(--focus-outline);
+    outline: none;
+  }
+}

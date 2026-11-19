@@ -1,0 +1,66 @@
+<section id="join" class="join">
+  <form id="join-form" class="box join__form">
+    <div class="box__header">
+      <h1 class="box__title">Chat Game</h1>
+    </div>
+    <div class="box__body">
+      <label class="label" for="join-name">Your name</label>
+      <input id="join-name" class="input" type="text" maxlength="20" autocomplete="off" required>
+      <p id="join-error" class="join__error" role="alert"></p>
+      <button type="submit" class="btn btn--primary btn--block">Enter chat</button>
+    </div>
+  </form>
+</section>
+
+<main id="app" class="app" data-chat-position="right" hidden>
+  <section id="game" class="game" aria-label="Game">
+    <slot name="game"><p class="game__placeholder">Game area</p></slot>
+  </section>
+
+  <div id="splitter" class="splitter" role="separator" tabindex="0" aria-label="Resize chat" aria-controls="chat" aria-valuemin="20" aria-valuemax="80" aria-valuenow="50"></div>
+
+  <section id="chat" class="chat" aria-label="Chat">
+    <div class="chat__layout">
+      <header class="header chat__header">
+        <span class="header__title">Chat Game</span>
+        <div class="header__actions">
+          <div id="position-control" class="segmented" role="group" aria-label="Chat position">
+            <button type="button" class="segmented__button" data-position="left">Left</button>
+            <button type="button" class="segmented__button" data-position="right">Right</button>
+            <button type="button" class="segmented__button" data-position="top">Top</button>
+            <button type="button" class="segmented__button" data-position="bottom">Bottom</button>
+          </div>
+          <button id="settings-open" type="button" class="icon-button" aria-label="Settings" aria-haspopup="dialog" title="Settings">&#9881;</button>
+        </div>
+      </header>
+      <ul id="messages" class="chat__messages" aria-live="polite"></ul>
+      <aside class="chat__users">
+        <h2 class="chat__users-title">Online <span id="user-count" class="counter">0</span></h2>
+        <ul id="users"></ul>
+      </aside>
+      <form id="message-form" class="chat__form">
+        <input id="message-text" class="input" type="text" maxlength="500" autocomplete="off" placeholder="Say something…" aria-label="Message" required>
+        <button type="submit" class="btn btn--primary">Send</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<dialog id="settings" class="dialog" aria-labelledby="settings-title">
+  <form id="settings-form" class="box">
+    <div class="box__header">
+      <h2 id="settings-title" class="box__title">Settings</h2>
+    </div>
+    <div class="box__body settings__fields">
+      <div class="field">
+        <label class="label" for="settings-name">Username</label>
+        <input id="settings-name" class="input" type="text" maxlength="20" autocomplete="off" required>
+      </div>
+      <p id="settings-error" class="settings__error" role="alert"></p>
+    </div>
+    <div class="box__footer">
+      <button id="settings-cancel" type="button" class="btn btn--secondary">Cancel</button>
+      <button type="submit" class="btn btn--primary">Save</button>
+    </div>
+  </form>
+</dialog>
