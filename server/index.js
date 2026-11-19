@@ -134,6 +134,20 @@ function handleQuote(socket, data) {
   broadcast(socket.room, { type: "quote", name: socket.userName, text, time: Date.now() });
 }
 
+// What someone has selected in the article right now, as text: every reader finds it in their own layout.
+// `occurrence` tells which match of the text it is, an empty text means the selection is gone.
+function handleSelectText(socket, data) {
+  if (!socket.userName) {
+    send(socket, { type: "error", reason: "Ga eerst naar de chat." });
+    return;
+  }
+
+  const text = typeof data.text === "string" ? data.text.replace(/\s+/g, " ").trim().slice(0, MAX_QUOTE_LENGTH) : "";
+  const occurrence = Number.isInteger(data.occurrence) && data.occurrence >= 0 ? data.occurrence : 0;
+
+  broadcast(socket.room, { type: "user-selected", name: socket.userName, text, occurrence });
+}
+
 function handleMove(socket, data) {
   if (!socket.userName) {
     send(socket, { type: "error", reason: "Ga eerst naar de chat." });
@@ -208,6 +222,7 @@ const handlers = {
   join: handleJoin,
   message: handleMessage,
   quote: handleQuote,
+  "select-text": handleSelectText,
   move: handleMove,
   "update-profile": handleUpdateProfile,
 };
