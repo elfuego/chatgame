@@ -242,7 +242,12 @@ server.on("connection", (socket) => {
       return;
     }
 
-    const handler = handlers[data.type];
+    if (data === null || typeof data !== "object" || Array.isArray(data) || typeof data.type !== "string") {
+       send(socket, { type: "error", reason: "Ongeldig bericht." });
+       return;
+     }
+    const handler = Object.prototype.hasOwnProperty.call(handlers, data.type) ? handlers[data.type] : undefined;
+
     if (handler) {
       handler(socket, data);
     } else {
@@ -250,6 +255,7 @@ server.on("connection", (socket) => {
     }
   });
 
+  socket.on("error", () => socket.terminate());
   socket.on("close", () => handleLeave(socket));
 });
 
